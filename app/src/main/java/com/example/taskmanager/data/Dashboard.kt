@@ -33,3 +33,12 @@ data class TaskAddRequest(
     val startDate: String,
     val endDate: String
 )
+
+@Serializable
+data class TaskUpdateRequest(
+    val title: String,
+    val description: String,
+    val startDate: String,
+    val endDate: String,
+    val status: String
+)

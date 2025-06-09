@@ -20,5 +20,17 @@ interface ApiServiceInterface {
         @Path("id") userId: String,
         @Body profile: Profile
     ): Profile
-
+    
+    // New endpoints for task detail operations
+    @GET("api/tasks/{id}")
+    suspend fun getTaskById(@Path("id") taskId: String): TaskListResponse
+    
+    @PATCH("api/tasks/{id}")
+    suspend fun updateTask(
+        @Path("id") taskId: String,
+        @Body taskUpdateRequest: TaskUpdateRequest
+    ): TaskListResponse
+    
+    @DELETE("api/tasks/{id}")
+    suspend fun deleteTask(@Path("id") taskId: String)
 }

@@ -7,4 +7,6 @@ object Routes {
     const val HOME = "home"
     const val ADD_TASK = "add_task"
     const val PROFILE = "profile"
+    const val TASK_DETAIL = "task_detail/{taskId}"
+    const val SCHEDULE = "schedule"
 }

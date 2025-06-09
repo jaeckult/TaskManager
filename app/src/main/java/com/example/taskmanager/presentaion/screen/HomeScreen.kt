@@ -3,6 +3,7 @@ package com.example.taskmanager.presentaion.screen
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -54,24 +55,6 @@ fun HomeScreen(
             ) {
                 Icon(Icons.Default.Add, contentDescription = "Add Task", tint = Color.White)
             }
-        },
-        bottomBar = {
-            BottomAppBar {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceAround
-                ) {
-                    IconButton(onClick = { navController.navigate(Routes.HOME) }) {
-                        Icon(Icons.Default.Home, contentDescription = "Home", tint = Color.Gray)
-                    }
-                    IconButton(onClick = {  }) {
-                        Icon(Icons.Outlined.DateRange, contentDescription = "Grid", tint = Color.Gray)
-                    }
-                    IconButton(onClick = { navController.navigate(Routes.PROFILE) }) {
-                        Icon(Icons.Default.Person, contentDescription = "Profile", tint = Color.Gray)
-                    }
-                }
-            }
         }
     ) { innerPadding ->
         Column(
@@ -88,17 +71,13 @@ fun HomeScreen(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                IconButton(onClick = { currentDate = currentDate.minusMonths(1) }) { 
-                    Text("<", fontSize = 20.sp) 
-                }
+
                 Text(
                     currentDate.format(DateTimeFormatter.ofPattern("MMMM yyyy")),
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Medium
                 )
-                IconButton(onClick = { currentDate = currentDate.plusMonths(1) }) { 
-                    Text(">", fontSize = 20.sp) 
-                }
+
             }
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -143,7 +122,11 @@ fun HomeScreen(
                             TaskRow(
                                 name = task.title,
                                 dateRange = "${task.startDate.take(10)} - ${task.endDate.take(10)}",
-                                status = task.status
+                                status = task.status,
+                                taskId = task.id.toString(),
+                                onTaskClick = { taskId ->
+                                    navController.navigate(Routes.TASK_DETAIL.replace("{taskId}", taskId))
+                                }
                             )
                         }
                     }
@@ -161,9 +144,18 @@ fun HomeScreen(
 }
 
 @Composable
-fun TaskRow(name: String, dateRange: String, status: String) {
+fun TaskRow(
+    name: String,
+    dateRange: String,
+    status: String,
+    taskId: String,
+    onTaskClick: (String) -> Unit
+) {
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { onTaskClick(taskId) }
+            .padding(vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Column(modifier = Modifier.weight(1f)) {

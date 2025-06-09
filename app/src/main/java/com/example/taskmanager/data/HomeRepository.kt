@@ -12,7 +12,20 @@ class HomeRepository @Inject constructor(
     suspend fun getTaskList(): List<TaskListResponse> {
         return apiService.getTaskList()
     }
-    suspend fun addTask(taskAddRequest: TaskAddRequest): TaskListResponse{
+    
+    suspend fun addTask(taskAddRequest: TaskAddRequest): TaskListResponse {
         return apiService.addTask(taskAddRequest)
+    }
+    
+    suspend fun getTaskById(taskId: String): TaskListResponse {
+        return apiService.getTaskById(taskId)
+    }
+    
+    suspend fun updateTask(taskId: String, taskUpdateRequest: TaskUpdateRequest): TaskListResponse {
+        return apiService.updateTask(taskId, taskUpdateRequest)
+    }
+    
+    suspend fun deleteTask(taskId: String) {
+        apiService.deleteTask(taskId)
     }
 }
