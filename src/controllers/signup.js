@@ -11,13 +11,12 @@ signupRouter.post('/', async (req, res) => {
   
   const {
     username,
-    password,
-    email,
+    password
   } = req.body;
   
 
   // Validate required fields
-  if (!username || !password || !email) {
+  if (!username || !password) {
     return res.status(400).json({ error: 'All fields are required' });
   }
 //   if (password.length < 6) {
@@ -47,7 +46,6 @@ signupRouter.post('/', async (req, res) => {
       const user = await prisma.user.create({
         data: {
           username,
-          email,
           password: passwordHash,
         }
       });
@@ -58,7 +56,6 @@ signupRouter.post('/', async (req, res) => {
 
     res.status(201).json({
       username: newUser.username,
-      email: newUser.email,
     });
   } catch (error) {
     console.error('Error during signup:', error);
