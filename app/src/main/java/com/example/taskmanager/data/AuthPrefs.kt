@@ -60,5 +60,11 @@ class AuthPrefs(context: Context) {
     fun clearAuthData() {
         prefs.edit { clear() }
     }
+    fun setUsername(string: String) {
+        prefs.edit {
+            putString(KEY_USERNAME, string)
+        }
+
+    }
 
 }

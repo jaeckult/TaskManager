@@ -104,6 +104,7 @@ dependencies {
     val kotlin_serialization_version = "1.6.3"
     val kotlin_metadata_jvm_version = "0.5.1"
     val okhttpVersion = "4.11.0"
+    val compose_version = "1.6.0"
 
 
     //datastore
@@ -111,6 +112,7 @@ dependencies {
     implementation("androidx.datastore:datastore-preferences:1.0.0")
 
 
+    implementation ("androidx.compose.material:material-icons-extended:$compose_version")
 
     // Room with KSP
     implementation("androidx.room:room-runtime:$room_version")

@@ -29,9 +29,13 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.navigation
 import androidx.navigation.compose.rememberNavController
 import com.example.taskmanager.application.LoginViewModel
+import com.example.taskmanager.application.ProfileEditViewModel
 import com.example.taskmanager.data.AuthPrefs
 import com.example.taskmanager.presentaion.Navigation.Routes
+import com.example.taskmanager.presentaion.screen.AddTaskScreen
+import com.example.taskmanager.presentaion.screen.HomeScreen
 import com.example.taskmanager.presentaion.screen.LoginScreen
+import com.example.taskmanager.presentaion.screen.ProfileScreen
 import com.example.taskmanager.presentaion.screen.SignupScreen
 import com.example.taskmanager.presentaion.ui.theme.TaskmanagerTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -85,7 +89,7 @@ fun MyApp() {
             }
 
             composable(Routes.HOME) {
-                Home(
+                HomeScreen(
                     navController = navController
                 )
             }
@@ -99,16 +103,19 @@ fun MyApp() {
                     navController = navController
                 )
             }
+            composable (Routes.ADD_TASK) {
+                AddTaskScreen(
+                    navController = navController
+
+                )
+            }
+            composable(Routes.PROFILE) {
+                ProfileScreen(
+                    navController = navController,
+                    authPrefs = authPrefs
+                )
+            }
         }
     }
 }
 
-@Composable
-fun Home(navController: NavController){
-    Column {
-        Text("Home Screen")
-        Button(onClick = { navController.navigate(Routes.SIGNUP) }) {
-            Text("signup")
-        }
-    }
-}
