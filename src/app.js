@@ -5,6 +5,7 @@ const userRouter = require('./controllers/user');
 const loginRouter = require('./controllers/login');
 const signupRouter = require('./controllers/signup');
 const taskRouter = require('./controllers/task');
+const projectRouter = require('./controllers/project');
 const { getTokenFrom } = require('./utils/middleware');
 
 
@@ -16,6 +17,7 @@ app.use('/api/users', userRouter);
 app.use('/api/login', loginRouter);
 app.use('/api/signup', signupRouter);
 app.use('/api/tasks', taskRouter);
+app.use('/api/projects', projectRouter);
 
 app.get('/', (req, res)=>{
     res.send('<h1>Welcome to the API</h1>')
