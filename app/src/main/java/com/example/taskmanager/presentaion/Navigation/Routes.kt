@@ -9,4 +9,6 @@ object Routes {
     const val PROFILE = "profile"
     const val TASK_DETAIL = "task_detail/{taskId}"
     const val SCHEDULE = "schedule"
+    const val PROJECTS = "projects"
+    const val PROJECT_DETAIL = "project_detail/{projectId}"
 }

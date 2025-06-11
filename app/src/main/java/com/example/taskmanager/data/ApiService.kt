@@ -1,7 +1,9 @@
 package com.example.taskmanager.data
 
-import okhttp3.internal.concurrent.Task
 import retrofit2.http.*
+import com.example.taskmanager.data.LoginRequest
+import com.example.taskmanager.data.LoginResponse
+import com.example.taskmanager.data.Profile
 
 interface ApiServiceInterface {
     @Headers("Content-Type: application/json")
@@ -21,6 +23,9 @@ interface ApiServiceInterface {
         @Body profile: Profile
     ): Profile
     
+    @GET("api/users/profile")
+    suspend fun getProfile(): Profile
+    
     // New endpoints for task detail operations
     @GET("api/tasks/{id}")
     suspend fun getTaskById(@Path("id") taskId: String): TaskListResponse
@@ -33,4 +38,38 @@ interface ApiServiceInterface {
     
     @DELETE("api/tasks/{id}")
     suspend fun deleteTask(@Path("id") taskId: String)
+
+    // Project endpoints
+    @GET("api/projects")
+    suspend fun getProjects(): List<Project>
+
+    @GET("api/projects/{id}")
+    suspend fun getProject(@Path("id") id: Int): Project
+
+    @POST("api/projects")
+    suspend fun createProject(@Body request: CreateProjectRequest): Project
+
+    @PATCH("api/projects/{id}")
+    suspend fun updateProject(
+        @Path("id") id: Int,
+        @Body request: UpdateProjectRequest
+    ): Project
+
+    @DELETE("api/projects/{id}")
+    suspend fun deleteProject(@Path("id") id: Int)
+
+    @POST("api/projects/{id}/share")
+    suspend fun shareProject(
+        @Path("id") projectId: Int,
+        @Body request: ShareProjectRequest
+    ): ProjectShareRequest
+
+    @PATCH("api/projects/share/{requestId}")
+    suspend fun handleShareRequest(
+        @Path("requestId") requestId: Int,
+        @Body request: HandleShareRequest
+    ): ProjectShareRequest
+
+    @GET("api/projects/share/requests")
+    suspend fun getShareRequests(): List<ProjectShareRequest>
 }

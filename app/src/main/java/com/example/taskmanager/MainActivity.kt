@@ -1,21 +1,18 @@
 package com.example.taskmanager
 
-import android.annotation.SuppressLint
-import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material.icons.outlined.DateRange
+import androidx.compose.material.icons.outlined.Folder
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -26,11 +23,12 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.taskmanager.application.LoginViewModel
-import com.example.taskmanager.application.ProfileEditViewModel
+import com.example.taskmanager.application.ProjectViewModel
 import com.example.taskmanager.data.AuthPrefs
 import com.example.taskmanager.presentaion.Navigation.Routes
 import com.example.taskmanager.presentaion.screen.*
 import com.example.taskmanager.presentaion.ui.theme.TaskmanagerTheme
+import com.example.taskmanager.presentation.screens.ProjectScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -71,6 +69,12 @@ fun BottomNavBar(navController: NavController) {
             selected = currentRoute == Routes.PROFILE,
             onClick = { navController.navigate(Routes.PROFILE) }
         )
+        NavigationBarItem(
+            icon = { Icon(Icons.Outlined.Folder, contentDescription = "Projects") },
+            label = { Text("Projects") },
+            selected = currentRoute == Routes.PROJECTS,
+            onClick = { navController.navigate(Routes.PROJECTS) }
+        )
     }
 }
 
@@ -83,7 +87,7 @@ fun MyApp() {
     val authPrefs = remember { AuthPrefs(context) }
 
     // Define main screens that should show bottom navigation
-    val mainScreens = listOf(Routes.HOME, Routes.SCHEDULE, Routes.PROFILE)
+    val mainScreens = listOf(Routes.HOME, Routes.SCHEDULE, Routes.PROFILE, Routes.PROJECTS)
 
     Scaffold(
         bottomBar = {
@@ -141,6 +145,17 @@ fun MyApp() {
                 ProfileScreen(
                     navController = navController,
                     authPrefs = authPrefs
+                )
+            }
+
+            composable(Routes.PROJECTS) {
+                val viewModel: ProjectViewModel = hiltViewModel()
+                ProjectScreen(
+                    navController = navController,
+                    viewModel = viewModel,
+                    onNavigateToTask = { taskId ->
+                        navController.navigate(Routes.TASK_DETAIL.replace("{taskId}", taskId.toString()))
+                    }
                 )
             }
 

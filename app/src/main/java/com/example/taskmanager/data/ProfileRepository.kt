@@ -16,13 +16,22 @@ class ProfileRepository @Inject constructor(
      */
     suspend fun setNewProfile(userId: String, profile: Profile): Profile {
         return try {
-            // Only send the request if we have at least one field to update
-            if (profile.username == null && profile.password == null) {
-                throw Exception("No valid fields to update")
-            }
             apiService.setNewProfile(userId, profile)
         } catch (e: Exception) {
             throw Exception("Failed to update profile: ${e.message}")
+        }
+    }
+
+    /**
+     * Gets the current user's profile
+     * @return The user's profile
+     * @throws Exception if the API call fails
+     */
+    suspend fun getProfile(): Profile {
+        return try {
+            apiService.getProfile()
+        } catch (e: Exception) {
+            throw Exception("Failed to get profile: ${e.message}")
         }
     }
 }

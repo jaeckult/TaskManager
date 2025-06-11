@@ -88,7 +88,7 @@ class ProfileEditViewModel @Inject constructor(
                 )
 
                 // Only proceed if we have at least one field to update
-                if (newProfile.username == null && newProfile.password == null) {
+                if (newProfile.username == null) {
                     profileEditState.value = ProfileEditState.Error("No changes to update")
                     return@launch
                 }

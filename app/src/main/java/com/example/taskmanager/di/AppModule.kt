@@ -5,6 +5,7 @@ import com.example.taskmanager.data.AuthPrefs
 import com.example.taskmanager.data.ApiServiceInterface
 import com.example.taskmanager.data.LoginRepository
 import com.example.taskmanager.data.SignupRepository
+import com.example.taskmanager.data.ProjectRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -23,7 +24,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object AppModule {
 
-    private const val BASE_URL = "http://10.6.202.125:3000/" // Replace with your API URL
+    private const val BASE_URL = "http://192.168.225.58:3000/" // Replace with your API URL
 
     val logging = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BODY
@@ -90,5 +91,10 @@ object AppModule {
     @Singleton
     fun provideContext(@ApplicationContext context: Context): Context = context
 
+    @Provides
+    @Singleton
+    fun provideProjectRepository(apiService: ApiServiceInterface): ProjectRepository {
+        return ProjectRepository(apiService)
+    }
 
 }

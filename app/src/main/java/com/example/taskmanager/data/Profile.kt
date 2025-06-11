@@ -5,25 +5,31 @@ import kotlinx.serialization.SerialName
 
 @Serializable
 data class Profile(
+    @SerialName("id")
+    val id: Int,
     @SerialName("username")
-    val username: String? = null,
-    @SerialName("password")
-    val password: String? = null,
+    val username: String,
+    @SerialName("email")
+    val email: String,
+    @SerialName("createdAt")
+    val createdAt: String,
+    @SerialName("updatedAt")
+    val updatedAt: String
 ) {
     init {
-        if (username != null) {
-            require(username.isNotBlank()) { "Username cannot be empty" }
-        }
-        if (password != null) {
-            require(password.length >= 6) { "Password must be at least 6 characters" }
+        if (username.isNotBlank()) {
+            require(username.length >= 6) { "Username must be at least 6 characters" }
         }
     }
 
     companion object {
         fun create(username: String? = null, password: String? = null): Profile {
             return Profile(
-                username = username?.trim(),
-                password = password
+                id = 0, // This will be set by the backend
+                username = username ?: "",
+                email = "", // This will be preserved by the backend
+                createdAt = "", // This will be set by the backend
+                updatedAt = "" // This will be set by the backend
             )
         }
     }
